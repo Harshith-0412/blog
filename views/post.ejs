@@ -1,0 +1,110 @@
+<div class="card-container">
+  <div class="card card-image">
+    <img src="<%= data.image %>" alt="Post Image" class="article-card__image">
+  </div>
+  <div class="card card-content">
+    <h1 class="article-title"><%= data.title %></h1>
+    <article class="article-body">
+      <%= data.body %>
+    </article>
+  </div>
+</div><br>
+
+<button id="add-comment-btn" class="btn">Add Comment</button><br>
+<br>
+<div id="comment-modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="comment-form">
+      <h2>Post a Comment</h2>
+      <form id="comment-form" action="/post/<%= data._id %>/comment" method="POST">
+        <label for="name"><b>Name</b></label>
+        
+        <input type="text" placeholder="Your Name" name="name" value="<%= locals.username || '' %>" required>
+        <label for="email"><b>Email</b></label>
+        <input type="email" placeholder="Your Email" name="email" required>
+
+        <label for="comment"><b>Comment</b></label>
+        <textarea name="comment" cols="50" rows="10" required></textarea>
+
+        <input type="submit" value="Submit Comment" class="btn">
+      </form>
+    </div>
+  </div>
+</div>
+
+<h2>Comments</h2>
+<div id="comments-section">
+  <% if (comments.length > 0) { %>
+    <% comments.forEach(comment => { %>
+      <div class="card comment-card">
+        <div class="card-body">
+          <h4 class="card-title"><strong><%= comment.name %></strong></h4>
+          <p class="card-text"><%= comment.comment %></p>
+        </div>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p>No comments yet.</p>
+  <% } %>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Get the modal
+    var modal = $('#comment-modal');
+
+    // Get the button that opens the modal
+    var addCommentBtn = $('#add-comment-btn');
+
+    // Get the <span> element that closes the modal
+    var closeBtn = $('.close');
+
+    // When the user clicks the button, open the modal
+    addCommentBtn.click(function() {
+      modal.show();
+    });
+
+    // When the user clicks on <span> (x), close the modal
+    closeBtn.click(function() {
+      modal.hide();
+    });
+
+    // Handle form submission
+    $('#comment-form').submit(function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Disable the submit button to prevent multiple submissions
+      $('#comment-form .btn').attr('disabled', 'disabled');
+
+      // Collect form data
+      var formData = $(this).serialize();
+
+      // Submit the form via AJAX
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: formData,
+        success: function(response) {
+          // Clear form input fields
+          $('#comment-form input[type="text"]').val('');
+          $('#comment-form input[type="email"]').val('');
+          $('#comment-form textarea').val('');
+
+          // Append the new comment to the comments section
+          $('#comments-section').append(response);
+
+          // Enable the submit button again
+          $('#comment-form .btn').removeAttr('disabled');
+
+          // Hide the modal
+          modal.hide();
+        },
+        error: function() {
+          // Handle the error case if needed
+        }
+      });
+    });
+  });
+</script>

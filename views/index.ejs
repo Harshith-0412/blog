@@ -1,0 +1,57 @@
+<div class="author">
+  <h1 class="author__heading">Lights out, reviews on!</h1>
+  <p class="author__body">"Unleash your love for movies with concise and captivating reviews."</p>
+</div>
+
+<div class="hero-image">
+  <div class="image-wrapper">
+    <img src="/img/img1.jpg" alt="image 1" width="981" height="528">
+    <img src="/img/img2.jpg" alt="image 2" width="981" height="528">
+    <img src="/img/img3.jpg" alt="image 3" width="981" height="528">
+    <img src="/img/img4.jpg" alt="image 4" width="981" height="528">
+    <img src="/img/img5.jpg" alt="image 5" width="981" height="528">
+    <img src="/img/img6.jpg" alt="image 6" width="981" height="528">
+    <img src="/img/img7.jpg" alt="image 7" width="981" height="528">
+    <img src="/img/img8.jpg" alt="image 8" width="981" height="528">
+    <img src="/img/img9.jpg" alt="image 9" width="981" height="528">
+    <img src="/img/img10.jpg" alt="image 10" width="981" height="528">
+  </div>
+</div>
+
+
+<section class="articles">
+  <h2 class="articles__heading">Latest Posts</h2>
+
+  <div class="article-card-container">
+    <% data.forEach(post => { %>
+      <div class="article-card">
+        <a href="/post/<%= post._id %>">
+          <div class="article-card__content">
+            <h3 class="article-card__title"><%= post.title %></h3>
+            <span class="article-card__date"><%= post.createdAt.toDateString() %></span>
+            <h6 class="article-__body">
+              <% const maxLength = 200; %>
+              <%= post.body.length > maxLength ? post.body.substring(0, maxLength) + '...' : post.body %>
+              <% if (post.body.length > maxLength) { %>
+                <a href="/post/<%= post._id %>">Read more</a>
+              <% } %>
+            </h6>
+          </div>
+        </a>
+      </div>
+    <% }) %>
+  </div>
+  <div class="pagination">
+    <% if (previousPage !== null) { %>
+      <a href="/?page=<%= previousPage %>" class="pagination__button">Back</a>
+    <% } %>
+    <% if (nextPage !== null) { %>
+      <a href="/?page=<%= nextPage %>" class="pagination__button">Next</a>
+    <% } %>
+  </div>
+
+  
+</section>
+
+
+  

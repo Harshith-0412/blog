@@ -1,0 +1,50 @@
+<h3>Sign In</h3>
+
+<form action="/admin" method="POST">
+
+  <label for="username"><b>Username</b></label>
+  <input type="text" placeholder="Enter Username" name="username">
+
+  <label for="password"><b>Password</b></label>
+  <input type="password" placeholder="Enter Password" name="password">
+
+  <input type="submit" value="Login" class="btn">
+ 
+
+</form>
+
+
+
+<button id="createAccountBtn" class="btn">Create an Account</button>
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="closeBtn" class="close">&times;</span>
+    <h3>Register</h3>
+    <form action="/register" method="POST">
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username">
+      
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password">
+      
+      <label for="confirmPassword"><b>Confirm Password</b></label>
+      <input type="password" placeholder="Confirm Password" name="confirmPassword">
+      
+      <input type="submit" value="Register" class="btn">
+    </form>
+  </div>
+</div>
+<script>
+    const createAccountBtn = document.getElementById('createAccountBtn');
+    const modal = document.getElementById('modal');
+    const closeBtn = document.getElementById('closeBtn');
+
+    createAccountBtn.addEventListener('click', function() {
+      modal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+  </script>

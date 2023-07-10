@@ -1,0 +1,25 @@
+<header class="header">
+  <a href="/" class="header1__logo">
+    <% if (locals.userIsAuthenticated) { %>
+     Welcome,<br> <%= locals.username %>
+    <% } else { %>
+      User Panel
+    <% } %>
+    
+  </a>
+
+  <nav class="header__nav">
+    <ul>
+      <li>
+        <a href="/" class="">Home</a>
+      </li>
+      <li>
+        <a href="/about" class="">About</a>
+      </li>
+      <li>
+        <a href="/contact" class="">Contact</a>
+      </li>
+    </ul>
+  </nav>
+  
+</header>
