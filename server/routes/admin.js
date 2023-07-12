@@ -21,8 +21,8 @@ const authMiddleware = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, jwtSecret);
-    const user = await User.findById(decoded.userId); // Retrieve the user from the database
-    req.user = { id: decoded.userId, username: user.username }; // Assign the user object with the user ID and username
+    const user = await User.findById(decoded.userId); 
+    req.user = { id: decoded.userId, username: user.username }; 
     next();
   } catch (error) {
     res.status(401).json({ message: 'Unauthorized' });
@@ -87,7 +87,7 @@ router.get('/dashboard', authMiddleware, async (req, res) => {
       title: 'Dashboard',
       description: 'Simple Blog created with NodeJs, Express & MongoDb.',
       userIsAuthenticated: true,
-      username: username // Pass the username to the view
+      username: username 
     };
 
     const data = await Post.find({ userId: userId });
@@ -139,7 +139,7 @@ router.post('/add-post', authMiddleware, async (req, res) => {
 
     const newPost = new Post({
       title,
-      image, // Make sure the image URL is stored in the image field
+      image, 
       body,
       userId
     });
@@ -172,7 +172,7 @@ router.get('/edit-post/:id', authMiddleware, async (req, res) => {
     const data = await Post.findOne({ _id: postId, userId: userId });
 
     if (!data) {
-      // If the post does not belong to the logged-in user, return an error or redirect to a suitable page
+      
       return res.status(404).json({ message: 'Post not found' });
     }
    
@@ -202,7 +202,7 @@ router.put('/edit-post/:id', authMiddleware, async (req, res) => {
     });
 
     if (!updatedPost) {
-      // If the post does not belong to the logged-in user, return an error or redirect to a suitable page
+      
       return res.status(404).json({ message: 'Post not found' });
     }
 
@@ -237,7 +237,7 @@ router.post('/register', async (req, res) => {
       // Set the token as a cookie
       res.cookie('token', token, { httpOnly: true });
 
-      res.redirect('/'); // Redirect to the dashboard or any other desired page
+      res.redirect('/'); 
     } catch (error) {
       if (error.code === 11000) {
         res.status(409).json({ message: 'User already in use' });
@@ -261,7 +261,7 @@ router.delete('/delete-post/:id', authMiddleware, async (req, res) => {
     const deletedPost = await Post.findOneAndDelete({ _id: postId, userId: userId });
 
     if (!deletedPost) {
-      // If the post does not belong to the logged-in user, return an error or redirect to a suitable page
+      
       return res.status(404).json({ message: 'Post not found' });
     }
 
@@ -273,7 +273,7 @@ router.delete('/delete-post/:id', authMiddleware, async (req, res) => {
 
 
 router.get('/auth/check-login', authMiddleware, (req, res) => {
-  // If the execution reaches this point, the user is authenticated
+  
   res.json({ userIsAuthenticated: true });
 });
 
